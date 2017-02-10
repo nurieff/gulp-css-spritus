@@ -4,96 +4,102 @@ Parses your CSS to find the sprites and then creates, saves and compresses
 Easy to use with your CSS, SASS (SCSS) and others
 
 ## Install
-    npm install gulp-css-spritus --save
+```
+npm install gulp-css-spritus --save
+```
 
 ## Easy
 ### app.scss
-    $icons-sprite: "assets/images/icons/*.png";
+```
+$icons-sprite: "assets/images/icons/*.png";
 
-    .icon {
-        background-image: spritus-url($icons-sprite);
-        background-size: spritus-size($icons-sprite);
-    }
+.icon {
+    background-image: spritus-url($icons-sprite);
+    background-size: spritus-size($icons-sprite);
+}
 
-    .icon-google {
-        background-position: spritus-position($icons-sprite, "google.png");
-        height: spritus-height($icons-sprite, "google.png");
-        width: spritus-width($icons-sprite, "google.png");
-    }
+.icon-google {
+    background-position: spritus-position($icons-sprite, "google.png");
+    height: spritus-height($icons-sprite, "google.png");
+    width: spritus-width($icons-sprite, "google.png");
+}
 
-    .icon-vk {
-        background-position: spritus-position($icons-sprite, "vk");
-        height: spritus-height($icons-sprite, "vk");
-        width: spritus-width($icons-sprite, "vk");
-    }
-
+.icon-vk {
+    background-position: spritus-position($icons-sprite, "vk");
+    height: spritus-height($icons-sprite, "vk");
+    width: spritus-width($icons-sprite, "vk");
+}
+```
 ### gulpfile.js
-    var gulp = require("gulp");
-    var sass = require("gulp-sass");
-    var spritus = require("gulp-css-spritus");
-    
-    gulp.task("scss", function () {
-        return gulp.src("./scss/app.scss")
-        .pipe(sass().on("error", sass.logError))
-        .pipe(spritus({
-            imageDirSave: "public/images/",
-            imageDirCSS: "../images/",
-        }))
-        .pipe(gulp.dest("./public/css"));
-    });
+```
+var gulp = require("gulp");
+var sass = require("gulp-sass");
+var spritus = require("gulp-css-spritus");
 
+gulp.task("scss", function () {
+    return gulp.src("./scss/app.scss")
+    .pipe(sass().on("error", sass.logError))
+    .pipe(spritus({
+        imageDirSave: "public/images/",
+        imageDirCSS: "../images/",
+    }))
+    .pipe(gulp.dest("./public/css"));
+});
+```
 ## Expert
 ### gulpfile.js
-    var gulp = require("gulp")
-        , merge = require("merge-stream")
-        , sass = require("gulp-sass")
-        , spritus = require("gulp-css-spritus")
-        , imagemin = require("gulp-imagemin")
-        , cssnano = require("gulp-cssnano")
-        , imageminPngquant = require("imagemin-pngquant")
-        , imageminMozjpeg = require("imagemin-mozjpeg")
-        , buffer = require("vinyl-buffer")
-        ;
+```
+var gulp = require("gulp")
+    , merge = require("merge-stream")
+    , sass = require("gulp-sass")
+    , spritus = require("gulp-css-spritus")
+    , imagemin = require("gulp-imagemin")
+    , cssnano = require("gulp-cssnano")
+    , imageminPngquant = require("imagemin-pngquant")
+    , imageminMozjpeg = require("imagemin-mozjpeg")
+    , buffer = require("vinyl-buffer")
+    ;
 
-    gulp.task("scss", function () {
-        var spritus = gulp.src("./scss/**/*.scss")
-            .pipe(sourcemaps.init())
-            .pipe(sass().on("error", sass.logError))
-            .pipe(spritus({
-                padding: 2,
-                algorithm: "top-down",
-                saveImage: false,
-                withImagemin: false,
-                withImageminPlugins: null,
-                imageDirCSS: "../images/",
-                imageDirSave: "public/images/"
-            }));
+gulp.task("scss", function () {
+    var spritus = gulp.src("./scss/**/*.scss")
+        .pipe(sourcemaps.init())
+        .pipe(sass().on("error", sass.logError))
+        .pipe(spritus({
+            padding: 2,
+            algorithm: "top-down",
+            saveImage: false,
+            withImagemin: false,
+            withImageminPlugins: null,
+            imageDirCSS: "../images/",
+            imageDirSave: "public/images/"
+        }));
+    
+    var stream_css = spritus.css
+        .pipe(cssnano())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("./public/css"));
         
-        var stream_css = spritus.css
-            .pipe(cssnano())
-            .pipe(sourcemaps.write())
-            .pipe(gulp.dest("./public/css"));
-            
-            
-        var stream_img = spritus.img
-            .pipe(buffer())
-            .pipe(imagemin(
-                [
-                    imageminMozjpeg(),
-                    imageminPngquant({
-                        quality: "60-70",
-                        speed: 1
-                    })
-                ]
-            ))
-            .pipe(gulp.dest("./public/images"));
-    });
-
+        
+    var stream_img = spritus.img
+        .pipe(buffer())
+        .pipe(imagemin(
+            [
+                imageminMozjpeg(),
+                imageminPngquant({
+                    quality: "60-70",
+                    speed: 1
+                })
+            ]
+        ))
+        .pipe(gulp.dest("./public/images"));
+});
+```
 
 ## Methods and options
 The path relative to the root of the script
-
-    $icons-sprite: "assets/images/icons/*.png";
+```
+$icons-sprite: "assets/images/icons/*.png";
+```
 
 ### Methods
 `spritus-url($icons-sprite)`
@@ -123,24 +129,24 @@ is replaced by the position of the image in the sprite
 
 
 ## Plugin options
-
-    ...
-    .pipe(spritus({
-        padding: 2,
-        algorithm: "top-down",
-        saveImage: true,
-        withImagemin: true,
-        withImageminPlugins: [
-            imageminPngquant({
-               quality: "60-70",
-               speed: 1
-           })
-        ],
-        imageDirCSS: "../images/",
-        imageDirSave: "public/images/"
-    }))
-    ...
-    
+```
+...
+.pipe(spritus({
+    padding: 2,
+    algorithm: "top-down",
+    saveImage: true,
+    withImagemin: true,
+    withImageminPlugins: [
+        imageminPngquant({
+           quality: "60-70",
+           speed: 1
+       })
+    ],
+    imageDirCSS: "../images/",
+    imageDirSave: "public/images/"
+}))
+...
+``` 
 **padding** 
 
 The amount of transparent space, in pixels, around each sprite. Defaults to `2`
