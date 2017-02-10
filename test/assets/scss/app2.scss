@@ -1,18 +1,18 @@
-$auth-sprite:"assets/images/auth/*.png?padding=20&algorithm=diagonal";
+$auth-sprite: "assets/images/auth/*.png?padding=20&algorithm=diagonal&name=auth2";
 
 .icon {
-    background-image: spritus-url($auth-sprite);
-    background-size: spritus-size($auth-sprite);
+  background-image: spritus-url($auth-sprite);
+  background-size: spritus-size($auth-sprite);
 }
 
 .icon-google {
-    background-position: spritus-position($auth-sprite, "google.png");
-    height: spritus-height($auth-sprite, "google.png");
-    width: spritus-width($auth-sprite, "google");
+  background-position: spritus-position($auth-sprite, "google.png");
+  height: spritus-height($auth-sprite, "google.png");
+  width: spritus-width($auth-sprite, "google.png");
 }
 
 .icon-vk {
-    background-position: spritus-position($auth-sprite, "vk.png");
-    height: spritus-height($auth-sprite, "vk.png");
-    width: spritus-width($auth-sprite, "vk");
+  background-position: spritus-position($auth-sprite, "vk");
+  height: spritus-height($auth-sprite, "vk");
+  width: spritus-width($auth-sprite, "vk");
 }
