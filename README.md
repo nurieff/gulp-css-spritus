@@ -121,8 +121,9 @@ is replaced by the position of the image in the sprite
 `%file_name%` — may be full `vk.png` or only basename `vk` without extension
 
 ### Inline options
-    $icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=newicons";
-
+```
+$icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=newicons";
+```
 - **padding** — see description in *Plugin options*
 - **algorithm** — see description in *Plugin options*
 - **name** — another name of the sprite to save
