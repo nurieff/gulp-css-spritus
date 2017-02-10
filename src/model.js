@@ -1,10 +1,10 @@
 var
-	Spritesmith = require('spritesmith')
-	, glob = require('glob')
-	, gutil = require('gulp-util')
-	, querystring = require('querystring')
-	, fs = require('fs')
-	;
+  Spritesmith = require('spritesmith')
+  , glob = require('glob')
+  , gutil = require('gulp-util')
+  , querystring = require('querystring')
+  , fs = require('fs')
+  ;
 
 /**
  * @param {SpritusList} list
@@ -13,111 +13,111 @@ var
  */
 function SpritusModel(list, str) {
 
-	var config = {};
-	if (str.indexOf('?') !== false) {
-		str = str.replace(/\?(.+)$/ig, function(s) {
-			config = querystring.parse(arguments[1]);
-			return '';
-		});
-	}
+  var config = {};
+  if (str.indexOf('?') !== false) {
+    str = str.replace(/\?(.+)$/ig, function (s) {
+      config = querystring.parse(arguments[1]);
+      return '';
+    });
+  }
 
-	/**
-	 * @type {SpritusList}
-	 */
-	this.list = list;
+  /**
+   * @type {SpritusList}
+   */
+  this.list = list;
 
-	/**
-	 * @type {String}
-	 * @private
-	 */
-	this._str = str;
-	this._path = str.indexOf('/') === 0 ? str : this.list.spritus.rootPath + str;
+  /**
+   * @type {String}
+   * @private
+   */
+  this._str = str;
+  this._path = str.indexOf('/') === 0 ? str : this.list.spritus.rootPath + str;
 
-	/**
-	 * @type {Array<String>}
-	 */
-	this._images = glob.sync(this._path);
+  /**
+   * @type {Array<String>}
+   */
+  this._images = glob.sync(this._path);
 
-	this._spriteImages = {};
-	this._spriteHeight = 0;
-	this._spriteWidth = 0;
+  this._spriteImages = {};
+  this._spriteHeight = 0;
+  this._spriteWidth = 0;
 
-	var result = str.match(/\/([^\/]+)\/\*\.([a-z]{2,})$/i);
-	this._name = result[1];
-	this._ext = result[2];
-	this._basename = this._name + '.' + this._ext;
+  var result = str.match(/\/([^\/]+)\/\*\.([a-z]{2,})$/i);
+  this._name = result[1];
+  this._ext = result[2];
+  this._basename = this._name + '.' + this._ext;
 
-	this._padding = 'padding' in config ? parseInt(config.padding) : this.list.spritus.config.padding;
-	this._algorithm = 'algorithm' in config ? config.algorithm : this.list.spritus.config.algorithm;
+  this._padding = 'padding' in config ? parseInt(config.padding) : this.list.spritus.config.padding;
+  this._algorithm = 'algorithm' in config ? config.algorithm : this.list.spritus.config.algorithm;
 }
 
-SpritusModel.prototype.run = function(callback) {
+SpritusModel.prototype.run = function (callback) {
 
-	Spritesmith.run(
-		{
-			src: this._images,
-			padding: this._padding,
-			algorithm: this._algorithm,
-		},
-		this._spriteHandler.bind(this, callback)
-	);
+  Spritesmith.run(
+    {
+      src: this._images,
+      padding: this._padding,
+      algorithm: this._algorithm,
+    },
+    this._spriteHandler.bind(this, callback)
+  );
 };
 
-SpritusModel.prototype._spriteHandler = function(callback, err, result) {
+SpritusModel.prototype._spriteHandler = function (callback, err, result) {
 
-	this._spriteImages = {};
-	this._spriteHeight = result.properties.height;
-	this._spriteWidth = result.properties.width;
+  this._spriteImages = {};
+  this._spriteHeight = result.properties.height;
+  this._spriteWidth = result.properties.width;
 
-	var res;
-	for(var path in result.coordinates) {
-		if (!result.coordinates.hasOwnProperty(path)) continue;
+  var res;
+  for (var path in result.coordinates) {
+    if (!result.coordinates.hasOwnProperty(path)) continue;
 
-		res = path.match(/\/([^\/\.]+)\.([a-z]{2,})$/i);
-		this._spriteImages[res[1]] = result.coordinates[path];
-		this._spriteImages[res[1] + '.' + res[2]] = result.coordinates[path];
-	}
+    res = path.match(/\/([^\/\.]+)\.([a-z]{2,})$/i);
+    this._spriteImages[res[1]] = result.coordinates[path];
+    this._spriteImages[res[1] + '.' + res[2]] = result.coordinates[path];
+  }
 
-	var imgFile = new gutil.File({
-		path: this._basename,
-		contents: result.image
-	});
+  var imgFile = new gutil.File({
+    path: this._basename,
+    contents: result.image
+  });
 
-	this.list.incrementComplete();
-	callback(imgFile);
+  this.list.incrementComplete();
+  callback(imgFile);
 };
 
-SpritusModel.prototype.position = function(spriteName) {
+SpritusModel.prototype.position = function (spriteName) {
 
-	if (!(spriteName in this._spriteImages)) return '0px 0px';
+  if (!(spriteName in this._spriteImages)) return '0px 0px';
 
-	return this._spriteImages[spriteName].x + 'px ' + this._spriteImages[spriteName].y + 'px';
+  return this._spriteImages[spriteName].x + 'px ' + this._spriteImages[spriteName].y + 'px';
 };
 
-SpritusModel.prototype.url = function() {
-	return 'url("' + this.list.spritus.config.imageDirCSS + this._basename + '")';
+SpritusModel.prototype.url = function () {
+  return 'url("' + this.list.spritus.config.imageDirCSS + this._basename + '")';
 };
 
-SpritusModel.prototype.height = function(spriteName) {
+SpritusModel.prototype.height = function (spriteName) {
 
-	if (!spriteName) {
-		return this._spriteHeight + 'px';
-	}
+  if (!spriteName) {
+    return this._spriteHeight + 'px';
+  }
 
-	return this._spriteImages[spriteName].height + 'px';
+  return this._spriteImages[spriteName].height + 'px';
 };
 
-SpritusModel.prototype.width = function(spriteName) {
+SpritusModel.prototype.width = function (spriteName) {
 
-	if (!spriteName) {
-		return this._spriteWidth + 'px';
-	}
+  if (!spriteName) {
+    return this._spriteWidth + 'px';
+  }
 
-	return this._spriteImages[spriteName].width + 'px';
+  return this._spriteImages[spriteName].width + 'px';
 };
 
-SpritusModel.prototype.size = function() {
-	return this._spriteWidth + 'px ' + this._spriteHeight + 'px';
+SpritusModel.prototype.size = function () {
+  return this._spriteWidth + 'px ' + this._spriteHeight + 'px';
 };
 
 module.exports = SpritusModel;
