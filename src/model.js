@@ -43,7 +43,7 @@ function SpritusModel(list, str) {
   this._spriteWidth = 0;
 
   var result = str.match(/\/([^\/]+)\/\*\.([a-z]{2,})$/i);
-  this._name = result[1];
+  this._name = 'name' in config ? config['name'] : result[1];
   this._ext = result[2];
   this._basename = this._name + '.' + this._ext;
 

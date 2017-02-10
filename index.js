@@ -14,8 +14,8 @@ function Spritus(config) {
   this.config = {
     padding: 2,
     algorithm: 'top-down', // left-right,diagonal,alt-diagonal,binary-tree
-    saveImage: false,
-    withImagemin: false,
+    saveImage: true,
+    withImagemin: true,
     withImageminPlugins: null,
     imageDirCSS: '../images/',
     imageDirSave: 'public/images/'
