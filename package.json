@@ -1,6 +1,6 @@
 {
   "name": "gulp-css-spritus",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Parses your styles to find the sprites and then creates, saves and compresses",
   "main": "index.js",
   "scripts": {
