@@ -9,6 +9,19 @@ npm install gulp-css-spritus --save
 ```
 
 ## Easy
+### main.css
+```
+.icon {
+    background-image: spritus-url("assets/images/icons/*.png");
+    background-size: spritus-size("assets/images/icons/*.png");
+}
+
+.icon-google {
+    background-position: spritus-position("assets/images/icons/*.png", "google.png");
+    height: spritus-height("assets/images/icons/*.png", "google.png");
+    width: spritus-width("assets/images/icons/*.png", "google.png");
+}
+```
 ### app.scss
 ```
 $icons-sprite: "assets/images/icons/*.png";
@@ -118,7 +131,7 @@ is replaced by the position of the image in the sprite
 `spritus-height($icons-sprite, "%file_name%")` and `spritus-width($icons-sprite, "%file_name%")` is replaced by height and width in pixels `30px`
 
 ***
-`%file_name%` — may be full `vk.png` or only basename `vk` without extension
+`%file_name%` — may be full `filename.png` or only basename `filename` without extension
 
 ### Inline options
 ```
