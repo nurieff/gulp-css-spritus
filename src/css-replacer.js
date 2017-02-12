@@ -33,6 +33,22 @@ SpritusCssReplacer.prototype._reg = function (mod, dopArgs) {
   return new RegExp(r.join(''), 'ig');
 };
 
+SpritusCssReplacer.prototype._regAsProperty = function (mod, dopArgs) {
+
+  var r = [];
+  r.push('spritus\\:\\s*?');
+  r.push(mod);
+
+  if (dopArgs) {
+    r.push("\\(\\\"([^\\)\\\"]+)\\\"");
+    r.push(",?\\s*?\\\"?([^\\)\\\"]*)\\\"?\\)");
+  } else {
+    r.push("\\(\\\"([^\\)\\\"]+)\\\"\\)");
+  }
+
+  return new RegExp(r.join(''), 'ig');
+};
+
 SpritusCssReplacer.prototype._position = function () {
   var self = this;
   this.css = this.css.replace(this._reg('position', true), function () {
@@ -44,6 +60,26 @@ SpritusCssReplacer.prototype._position = function () {
     }
 
     return self.SpritusList.get(str).position(img);
+  });
+
+  return this;
+};
+
+SpritusCssReplacer.prototype._phw = function () {
+  var self = this;
+  this.css = this.css.replace(this._regAsProperty('phw', true), function () {
+    var str = arguments[1];
+    var img = arguments[2];
+
+    if (!img || !self.SpritusList.get(str)) {
+      return '';
+    }
+
+    return [
+      'background-position: ' + self.SpritusList.get(str).position(img),
+      'height: ' + self.SpritusList.get(str).height(img),
+      'width: ' + self.SpritusList.get(str).width(img)
+    ].join(';');
   });
 
   return this;
@@ -131,6 +167,7 @@ SpritusCssReplacer.prototype.run = function () {
     ._height()
     ._width()
     ._size()
+    ._phw()
   ;
 
   return this;

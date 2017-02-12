@@ -1,6 +1,7 @@
 # gulp-css-spritus
 
 Parses your CSS to find the sprites and then creates, saves and compresses
+
 Easy to use with your CSS, SASS (SCSS) and others
 
 ## Install
@@ -9,7 +10,7 @@ npm install gulp-css-spritus --save
 ```
 
 ## Easy
-### main.css
+### CSS
 ```
 .icon {
     background-image: spritus-url("assets/images/icons/*.png");
@@ -22,7 +23,7 @@ npm install gulp-css-spritus --save
     width: spritus-width("assets/images/icons/*.png", "google.png");
 }
 ```
-### app.scss
+### SCSS
 ```
 $icons-sprite: "assets/images/icons/*.png";
 
@@ -42,6 +43,9 @@ $icons-sprite: "assets/images/icons/*.png";
     height: spritus-height($icons-sprite, "vk");
     width: spritus-width($icons-sprite, "vk");
 }
+.icon-twitter {
+    spritus:phw($icons-sprite, "twitter");
+}
 ```
 ### gulpfile.js
 ```
@@ -49,9 +53,20 @@ var gulp = require("gulp");
 var sass = require("gulp-sass");
 var spritus = require("gulp-css-spritus");
 
+//SCSS
 gulp.task("scss", function () {
-    return gulp.src("./scss/app.scss")
+    return gulp.src("./assets/scss/app.scss")
     .pipe(sass().on("error", sass.logError))
+    .pipe(spritus({
+        imageDirSave: "public/images/",
+        imageDirCSS: "../images/",
+    }))
+    .pipe(gulp.dest("./public/css"));
+});
+
+//CSS
+gulp.task("css", function () {
+    return gulp.src("./assets/css/main.css")
     .pipe(spritus({
         imageDirSave: "public/images/",
         imageDirCSS: "../images/",
@@ -115,21 +130,25 @@ $icons-sprite: "assets/images/icons/*.png";
 ```
 
 ### Methods
-`spritus-url($icons-sprite)`
+`spritus-url($icons-sprite);`
 is replaced by a relative link to the sprite
 `url("../images/icons.png")`
 ***
-`spritus-size($icons-sprite)`
+`spritus-size($icons-sprite);`
 is replaced with the size of the sprite
 `30px 180px`
 ***
-`spritus-position($icons-sprite, "%file_name%")`
+`spritus-position($icons-sprite, "%file_name%");`
 is replaced by the position of the image in the sprite
 `background-position: 0px 60px`.
 
 ***
-`spritus-height($icons-sprite, "%file_name%")` and `spritus-width($icons-sprite, "%file_name%")` is replaced by height and width in pixels `30px`
+`spritus-height($icons-sprite, "%file_name%");` and `spritus-width($icons-sprite, "%file_name%");` is replaced by height and width in pixels `30px`
 
+***
+`spritus:phw($icons-sprite, "%file_name%");`
+is replaced by the position, height and width of the image in sprite
+`background-position: 0px 60px;height:30px;width:30px;`
 ***
 `%file_name%` — may be full `filename.png` or only basename `filename` without extension
 
