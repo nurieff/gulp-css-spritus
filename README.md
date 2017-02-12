@@ -130,25 +130,15 @@ $icons-sprite: "assets/images/icons/*.png";
 ```
 
 ### Methods
-`spritus-url($icons-sprite);`
-is replaced by a relative link to the sprite
-`url("../images/icons.png")`
-***
-`spritus-size($icons-sprite);`
-is replaced with the size of the sprite
-`30px 180px`
-***
-`spritus-position($icons-sprite, "%file_name%");`
-is replaced by the position of the image in the sprite
-`background-position: 0px 60px`.
 
-***
-`spritus-height($icons-sprite, "%file_name%");` and `spritus-width($icons-sprite, "%file_name%");` is replaced by height and width in pixels `30px`
-
-***
-`spritus:phw($icons-sprite, "%file_name%");`
-is replaced by the position, height and width of the image in sprite
-`background-position: 0px 60px;height:30px;width:30px;`
+Method | Description
+------ | -----------
+`spritus-url($icons-sprite);` | is replaced by a relative link to the sprite `url("../images/icons.png")`
+`spritus-size($icons-sprite);` | is replaced with the size of the sprite `30px 180px`
+`spritus-position($icons-sprite, "%file_name%");` | is replaced by the position of the image in the sprite `background-position: 0px 60px`
+`spritus-height($icons-sprite, "%file_name%");` | is replaced by height in pixels `30px`
+`spritus-width($icons-sprite, "%file_name%");` | is replaced by width in pixels `30px`
+`spritus:phw($icons-sprite, "%file_name%");` | is replaced by the position, height and width of the image in sprite `background-position: 0px 60px;height:30px;width:30px;`
 ***
 `%file_name%` — may be full `filename.png` or only basename `filename` without extension
 
