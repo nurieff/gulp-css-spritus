@@ -38,6 +38,7 @@ function SpritusModel(list, str) {
    */
   this._images = glob.sync(this._path);
 
+  this._spriteImageKeys = [];
   this._spriteImages = {};
   this._spriteHeight = 0;
   this._spriteWidth = 0;
@@ -66,6 +67,7 @@ SpritusModel.prototype.run = function (callback) {
 SpritusModel.prototype._spriteHandler = function (callback, err, result) {
 
   this._spriteImages = {};
+  this._spriteImageKeys = [];
   this._spriteHeight = result.properties.height;
   this._spriteWidth = result.properties.width;
 
@@ -76,6 +78,8 @@ SpritusModel.prototype._spriteHandler = function (callback, err, result) {
     res = path.match(/\/([^\/\.]+)\.([a-z]{2,})$/i);
     this._spriteImages[res[1]] = result.coordinates[path];
     this._spriteImages[res[1] + '.' + res[2]] = result.coordinates[path];
+
+    this._spriteImageKeys.push(res[1]);
   }
 
   var imgFile = new gutil.File({
@@ -118,6 +122,24 @@ SpritusModel.prototype.width = function (spriteName) {
 
 SpritusModel.prototype.size = function () {
   return this._spriteWidth + 'px ' + this._spriteHeight + 'px';
+};
+
+/**
+ * @return {Object.<string, {width, height, position}>}
+ */
+SpritusModel.prototype.all = function () {
+
+  var nodes = {}, k;
+  for(var i = 0, l = this._spriteImageKeys.length; i < l; ++i) {
+    k = this._spriteImageKeys[i];
+    nodes[k] = {
+      width: this.width(k),
+      height: this.height(k),
+      position: this.position(k)
+    }
+  }
+
+  return nodes;
 };
 
 module.exports = SpritusModel;

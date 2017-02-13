@@ -20,3 +20,13 @@ $auth-sprite: "assets/images/auth/*.png?padding=20&algorithm=diagonal&name=auth2
 .icon-twitter {
   spritus:phw($auth-sprite, "twitter");
 }
+
+.b {
+  cursor: alias;
+}
+
+.icon {
+  spritus:all($auth-sprite);
+}
+
+@sprite-all($auth-sprite, 'icon');
