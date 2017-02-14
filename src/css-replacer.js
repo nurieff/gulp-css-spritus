@@ -158,15 +158,27 @@ SpritusCssReplacer.prototype._phw = function () {
   return this;
 };
 
-SpritusCssReplacer.prototype._all = function () {
+SpritusCssReplacer.prototype._each = function () {
   var self = this;
-  this.css = this.css.replace(this._reg('all',true), function () {
 
-    var str = arguments[1];
-    var prefix = arguments[2];
+  var r = [];
+  r.push('([^\\s\\{]+)\\s*?\\{');
+  r.push('([\\}]*|\\n*)?');
+  r.push('spritus\\:\\s*?');
+  r.push('each');
+  r.push("\\(\\\"([^\\)\\\"]+)\\\"\\);?");
+  r.push('([^\\}]*|\\n*)?');
+  r.push('\\}');
+
+  this.css = this.css.replace(new RegExp(r.join(''), 'gi'), function () {
+
+    var prefix = arguments[1];
+    var before = arguments[2];
+    var str = arguments[3];
+    var after = arguments[2];
 
     if (prefix.indexOf('.') === -1) {
-      prefix = '.' + prefix;
+      prefix = prefix + '.';
     }
 
     if (!self.SpritusList.get(str)) {
@@ -184,13 +196,14 @@ SpritusCssReplacer.prototype._all = function () {
 
       n.push(prefix.trim() + '-' + key);
       n.push('{');
-
+      n.push(before);
       n.push([
-        'background-position: ' + nodes[key].position,
-        'height: ' + nodes[key].height,
-        'width: ' + nodes[key].width
-      ].join(';'));
-
+        "\s\sbackground-position: " + nodes[key].position,
+        "\s\sheight: " + nodes[key].height,
+        "\s\swidth: " + nodes[key].width,
+        ''
+      ].join(";\n"));
+      n.push(after);
       n.push('}');
 
       css.push(n.join(' '));
@@ -212,7 +225,7 @@ SpritusCssReplacer.prototype.run = function () {
     ._width()
     ._size()
     ._phw()
-    ._all()
+    ._each()
   ;
 
   return this;

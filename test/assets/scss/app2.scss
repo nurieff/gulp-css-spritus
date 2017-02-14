@@ -25,8 +25,7 @@ $auth-sprite: "assets/images/auth/*.png?padding=20&algorithm=diagonal&name=auth2
   cursor: alias;
 }
 
-.icon {
-  spritus:all($auth-sprite);
+i.icon {
+  display: inline;
+  spritus:each($auth-sprite);
 }
-
-@sprite-all($auth-sprite, 'icon');
