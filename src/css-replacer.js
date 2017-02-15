@@ -65,26 +65,6 @@ SpritusCssReplacer.prototype._position = function () {
   return this;
 };
 
-SpritusCssReplacer.prototype._phw = function () {
-  var self = this;
-  this.css = this.css.replace(this._regAsProperty('phw', true), function () {
-    var str = arguments[1];
-    var img = arguments[2];
-
-    if (!img || !self.SpritusList.get(str)) {
-      return '';
-    }
-
-    return [
-      'background-position: ' + self.SpritusList.get(str).position(img),
-      'height: ' + self.SpritusList.get(str).height(img),
-      'width: ' + self.SpritusList.get(str).width(img)
-    ].join(';');
-  });
-
-  return this;
-};
-
 SpritusCssReplacer.prototype._url = function () {
   var self = this;
   this.css = this.css.replace(this._reg('url'), function () {
@@ -158,6 +138,82 @@ SpritusCssReplacer.prototype._size = function () {
   return this;
 };
 
+SpritusCssReplacer.prototype._phw = function () {
+  var self = this;
+  this.css = this.css.replace(this._regAsProperty('phw', true), function () {
+    var str = arguments[1];
+    var img = arguments[2];
+
+    if (!img || !self.SpritusList.get(str)) {
+      return '';
+    }
+
+    return [
+      'background-position: ' + self.SpritusList.get(str).position(img),
+      'height: ' + self.SpritusList.get(str).height(img),
+      'width: ' + self.SpritusList.get(str).width(img)
+    ].join(';');
+  });
+
+  return this;
+};
+
+SpritusCssReplacer.prototype._each = function () {
+  var self = this;
+
+  var r = [];
+  r.push('([^\\s\\{]+)\\s*?\\{');
+  r.push('([^\\}]+|\\n+)?');
+  r.push('spritus\\:\\s*?');
+  r.push('each');
+  r.push("\\(\\\"([^\\)\\\"]+)\\\"\\);?");
+  r.push('([^\\}]+|\\n+)?');
+  r.push('\\}');
+
+  this.css = this.css.replace(new RegExp(r.join(''), 'gi'), function () {
+
+    var prefix = arguments[1];
+    var before = arguments[2];
+    var str = arguments[3];
+    var after = arguments[4];
+
+    if (prefix.indexOf('.') === -1) {
+      prefix = prefix + '.';
+    }
+
+    if (!self.SpritusList.get(str)) {
+      return '';
+    }
+
+    var css = [];
+
+    var nodes = self.SpritusList.get(str).all();
+    var n;
+
+    for (var key in nodes) {
+      if (!nodes.hasOwnProperty(key)) continue;
+      n = [];
+      n.push(prefix.trim() + '-' + key);
+      n.push('{');
+      n.push(before);
+      n.push([
+        "background-position:" + nodes[key].position,
+        "height:" + nodes[key].height,
+        "width:" + nodes[key].width,
+        ''
+      ].join("; "));
+      n.push(after);
+      n.push('}');
+
+      css.push(n.join(' '));
+    }
+
+    return css.join("\n");
+  });
+
+  return this;
+};
+
 /**
  * @returns {SpritusCssReplacer}
  */
@@ -168,6 +224,7 @@ SpritusCssReplacer.prototype.run = function () {
     ._width()
     ._size()
     ._phw()
+    ._each()
   ;
 
   return this;
