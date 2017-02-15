@@ -1,13 +1,16 @@
 /**
  * @param {String} css
  * @param {SpritusList} SpritusList
+ * @param {String} searchPrefix
  * @constructor
  */
-function SpritusCssReplacer(css, SpritusList) {
+function SpritusCssReplacer(css, SpritusList, searchPrefix) {
   /**
    * @type {String}
    */
   this.css = css;
+
+  this._searchPrefix = searchPrefix;
 
   /**
    * @type {SpritusList}
@@ -18,7 +21,7 @@ function SpritusCssReplacer(css, SpritusList) {
 SpritusCssReplacer.prototype._reg = function (mod, dopArgs) {
 
   var r = [];
-  r.push('spritus');
+  r.push(this._searchPrefix);
   if (mod) {
     if (Array.isArray(mod)) {
       r.push("\\-(" + mod.join('|') + ')');
@@ -40,7 +43,7 @@ SpritusCssReplacer.prototype._reg = function (mod, dopArgs) {
 SpritusCssReplacer.prototype._regAsProperty = function (mod, dopArgs) {
 
   var r = [];
-  r.push('spritus\\:\\s*?');
+  r.push(this._searchPrefix + '\\:\\s*?');
 
   if (Array.isArray(mod)) {
     r.push("(" + mod.join('|') + ')');
@@ -135,7 +138,7 @@ SpritusCssReplacer.prototype._each = function () {
   var r = [];
   r.push('([^\\s\\{]+)\\s*?\\{');
   r.push('([^\\}]+|\\n+)?');
-  r.push('spritus\\:\\s*?');
+  r.push(this._searchPrefix + '\\:\\s*?');
   r.push('each');
   r.push("\\(\\\"([^\\)\\\"]+)\\\"\\);?");
   r.push('([^\\}]+|\\n+)?');
@@ -208,10 +211,11 @@ SpritusCssReplacer.prototype.getCss = function () {
 /**
  * @param {String} css
  * @param {SpritusList} SpritusList
+ * @param {String} searchPrefix
  * @returns {String}
  */
-SpritusCssReplacer.makeCSS = function (css, SpritusList) {
-  var R = new SpritusCssReplacer(css, SpritusList);
+SpritusCssReplacer.makeCSS = function (css, SpritusList, searchPrefix) {
+  var R = new SpritusCssReplacer(css, SpritusList, searchPrefix);
   return R.run().getCss();
 };
 

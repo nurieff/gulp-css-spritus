@@ -14,6 +14,7 @@ function Spritus(config) {
   this.config = {
     padding: 2,
     algorithm: 'top-down', // left-right,diagonal,alt-diagonal,binary-tree
+    searchPrefix: 'spritus',
     saveImage: true,
     withImagemin: true,
     withImageminPlugins: null,
@@ -82,7 +83,7 @@ Spritus.prototype.onEnd = function (cb) {
   this.SpritusList = new SpritusList(this);
   var self = this;
 
-  this.strCSS.replace(/spritus\-[^\(]+\(\"([^\"]+)\"/ig, function (str) {
+  this.strCSS.replace(new RegExp(this.config.searchPrefix + "\\-[^\\(]+\\(\\\"([^\\\"]+)\\\"", 'ig'), function (str) {
     self.SpritusList.push(arguments[1]);
     return str;
   });
@@ -142,7 +143,7 @@ Spritus.prototype.runHandler = function (imgFile) {
 
   if (!this.SpritusList.isComplete()) return;
 
-  this.strCSS = SpritusCssReplacer.makeCSS(this.strCSS, this.SpritusList);
+  this.strCSS = SpritusCssReplacer.makeCSS(this.strCSS, this.SpritusList, this.config.searchPrefix);
 
   var i, l, path;
 
