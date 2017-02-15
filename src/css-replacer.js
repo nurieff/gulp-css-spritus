@@ -163,11 +163,11 @@ SpritusCssReplacer.prototype._each = function () {
 
   var r = [];
   r.push('([^\\s\\{]+)\\s*?\\{');
-  r.push('([\\}]*|\\n*)?');
+  r.push('([^\\}]+|\\n+)?');
   r.push('spritus\\:\\s*?');
   r.push('each');
   r.push("\\(\\\"([^\\)\\\"]+)\\\"\\);?");
-  r.push('([^\\}]*|\\n*)?');
+  r.push('([^\\}]+|\\n+)?');
   r.push('\\}');
 
   this.css = this.css.replace(new RegExp(r.join(''), 'gi'), function () {
@@ -175,7 +175,7 @@ SpritusCssReplacer.prototype._each = function () {
     var prefix = arguments[1];
     var before = arguments[2];
     var str = arguments[3];
-    var after = arguments[2];
+    var after = arguments[4];
 
     if (prefix.indexOf('.') === -1) {
       prefix = prefix + '.';
@@ -189,20 +189,19 @@ SpritusCssReplacer.prototype._each = function () {
 
     var nodes = self.SpritusList.get(str).all();
     var n;
-    for(var key in nodes) {
+
+    for (var key in nodes) {
       if (!nodes.hasOwnProperty(key)) continue;
-
       n = [];
-
       n.push(prefix.trim() + '-' + key);
       n.push('{');
       n.push(before);
       n.push([
-        "\s\sbackground-position: " + nodes[key].position,
-        "\s\sheight: " + nodes[key].height,
-        "\s\swidth: " + nodes[key].width,
+        "background-position:" + nodes[key].position,
+        "height:" + nodes[key].height,
+        "width:" + nodes[key].width,
         ''
-      ].join(";\n"));
+      ].join("; "));
       n.push(after);
       n.push('}');
 

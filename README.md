@@ -22,6 +22,13 @@ npm install gulp-css-spritus --save
     height: spritus-height("assets/images/icons/*.png", "google.png");
     width: spritus-width("assets/images/icons/*.png", "google.png");
 }
+
+// OR
+
+.icon {
+    spritus: each("assets/images/icons/*.png")
+}
+
 ```
 ### SCSS
 ```
@@ -126,21 +133,60 @@ gulp.task("scss", function () {
 ## Methods and options
 The path relative to the root of the script
 ```
-$icons-sprite: "assets/images/icons/*.png";
+$sprite: "assets/images/icons/*.png";
 ```
 
 ### Methods
 
 Method | Description
 ------ | -----------
-`spritus-url($icons-sprite);` | is replaced by a relative link to the sprite `url("../images/icons.png")`
-`spritus-size($icons-sprite);` | is replaced with the size of the sprite `30px 180px`
-`spritus-position($icons-sprite, "%file_name%");` | is replaced by the position of the image in the sprite `background-position: 0px 60px`
-`spritus-height($icons-sprite, "%file_name%");` | is replaced by height in pixels `30px`
-`spritus-width($icons-sprite, "%file_name%");` | is replaced by width in pixels `30px`
-`spritus:phw($icons-sprite, "%file_name%");` | is replaced by the position, height and width of the image in sprite `background-position: 0px 60px;height:30px;width:30px;`
+`spritus-url($sprite);` | is replaced by a relative link to the sprite `url("../images/icons.png")`
+`spritus-size($sprite);` | is replaced with the size of the sprite
+`spritus-position($sprite, "%file_name%");` | is replaced by the position of the image in the sprite
+`spritus-height($sprite, "%file_name%");` | is replaced by height in pixels
+`spritus-width($sprite, "%file_name%");` | is replaced by width in pixels
+`spritus:phw($sprite, "%file_name%");` | is replaced by the position, height and width of the image in sprite `background-position: 0px 60px;height:30px;width:30px;`
+`spritus:each($sprite);` | is replaced by all sprite image. See example below
 ***
 `%file_name%` — may be full `filename.png` or only basename `filename` without extension
+***
+How does `spritus:each($sprite);`
+##### In
+```
+// example 1
+.myprefix {
+    spritus:each("assets/images/icons/*.png")
+}
+
+// example 2
+i.prefix {
+    display:none;
+    spritus:each("assets/images/icons/*.png")
+}
+```
+##### Out
+
+```
+// example 1
+.myprefix-google {
+    background-position: 0px 26px;height: 26px;width: 26px;
+}
+.myprefix-twitter {
+    background-position: 0px 42px;height: 26px;width: 26px;
+}
+...
+
+// example 2
+i.prefix-google {
+    display:none;
+    background-position: 0px 26px;height: 26px;width: 26px;
+}
+i.prefix-twitter {
+    display:none;
+    background-position: 0px 42px;height: 26px;width: 26px;
+}
+...
+```
 
 ### Inline options
 ```
