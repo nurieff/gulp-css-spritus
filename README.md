@@ -11,7 +11,7 @@ npm install gulp-css-spritus --save
 
 ## Easy
 ### CSS
-```
+```css
 .icon {
     background-image: spritus-url("assets/images/icons/*.png");
     background-size: spritus-size("assets/images/icons/*.png");
@@ -23,7 +23,7 @@ npm install gulp-css-spritus --save
     width: spritus-width("assets/images/icons/*.png", "google.png");
 }
 
-// OR
+/** OR **/
 
 .icon {
     spritus: each("assets/images/icons/*.png")
@@ -31,7 +31,7 @@ npm install gulp-css-spritus --save
 
 ```
 ### SCSS
-```
+```scss
 $icons-sprite: "assets/images/icons/*.png";
 
 .icon {
@@ -55,7 +55,7 @@ $icons-sprite: "assets/images/icons/*.png";
 }
 ```
 ### gulpfile.js
-```
+```javascript
 var gulp = require("gulp");
 var sass = require("gulp-sass");
 var spritus = require("gulp-css-spritus");
@@ -83,7 +83,7 @@ gulp.task("css", function () {
 ```
 ## Expert
 ### gulpfile.js
-```
+```javascript
 var gulp = require("gulp")
     , merge = require("merge-stream")
     , sass = require("gulp-sass")
@@ -132,7 +132,7 @@ gulp.task("scss", function () {
 
 ## Methods and options
 The path relative to the root of the script
-```
+```scss
 $sprite: "assets/images/icons/*.png";
 ```
 
@@ -152,13 +152,13 @@ Method | Description
 ***
 How does `spritus:each($sprite);`
 ##### In
-```
-// example 1
+```css
+/** example 1 **/
 .myprefix {
     spritus:each("assets/images/icons/*.png")
 }
 
-// example 2
+/** example 2 **/
 i.prefix {
     display:none;
     spritus:each("assets/images/icons/*.png")
@@ -166,8 +166,8 @@ i.prefix {
 ```
 ##### Out
 
-```
-// example 1
+```css
+/** example 1 **/
 .myprefix-google {
     background-position: 0px 26px;height: 26px;width: 26px;
 }
@@ -176,7 +176,7 @@ i.prefix {
 }
 ...
 
-// example 2
+/**  example 2 **/
 i.prefix-google {
     display:none;
     background-position: 0px 26px;height: 26px;width: 26px;
@@ -198,10 +198,11 @@ $icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=new
 
 
 ## Plugin options
-```
-...
+```javascript
+// ...
 .pipe(spritus({
     padding: 2,
+    searchPrefix: "spritus",
     algorithm: "top-down",
     saveImage: true,
     withImagemin: true,
@@ -214,7 +215,7 @@ $icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=new
     imageDirCSS: "../images/",
     imageDirSave: "public/images/"
 }))
-...
+// ...
 ``` 
 **padding** 
 
@@ -245,6 +246,37 @@ Relative URL (background-image) which is replaced in position in your CSS. Defau
 **imageDirSave**
 
 The path where to save the sprites relative to the root of the script. Defaults to `public/images/`
+
+***
+**searchPrefix**
+
+If you want to use a different prefix, then this option is for you.
+Defaults to `spritus`
+
+*gulpfile.js*
+
+```javascript
+// ...
+.pipe(spritus({
+    searchPrefix: "myprefix"
+}))
+// ...
+```
+Now you can now use
+
+*SCSS*
+```scss
+.icon {
+    background-image: myprefix-url($icons-sprite);
+    background-size: myprefix-size($icons-sprite);
+}
+
+.icon-google {
+    background-position: myprefix-position($icons-sprite, "google.png");
+    height: myprefix-height($icons-sprite, "google.png");
+    width: myprefix-width($icons-sprite, "google.png");
+}
+```
 
 ***
 **algorithm**

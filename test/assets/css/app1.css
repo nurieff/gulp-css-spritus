@@ -1,16 +1,16 @@
 .icon {
-  background-image: spritus-url("assets/images/auth/*.png");
-  background-size: spritus-size("assets/images/auth/*.png");
+  background-image: s-url("assets/images/auth/*.png");
+  background-size: s-size("assets/images/auth/*.png");
 }
 
 .icon-google {
-  background-position: spritus-position("assets/images/auth/*.png", "google.png");
-  height: spritus-height("assets/images/auth/*.png", "google.png");
-  width: spritus-width("assets/images/auth/*.png", "google");
+  background-position: s-position("assets/images/auth/*.png", "google.png");
+  height: s-height("assets/images/auth/*.png", "google.png");
+  width: s-width("assets/images/auth/*.png", "google");
 }
 
 .icon-vk {
-  background-position: spritus-position("assets/images/auth/*.png", "vk.png");
-  height: spritus-height("assets/images/auth/*.png", "vk.png");
-  width: spritus-width("assets/images/auth/*.png", "vk");
+  background-position: s-position("assets/images/auth/*.png", "vk.png");
+  height: s-height("assets/images/auth/*.png", "vk.png");
+  width: s-width("assets/images/auth/*.png", "vk");
 }
