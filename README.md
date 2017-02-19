@@ -4,6 +4,8 @@ Parses your CSS to find the sprites and then creates, saves and compresses
 
 Easy to use with your CSS, SASS (SCSS) and others
 
+The sprite is stored only those images that you use
+
 *For [PostCSS](http://postcss.org) use [postcss-spritus](https://www.npmjs.com/package/postcss-spritus)*
 
 ## Install
