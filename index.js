@@ -84,8 +84,21 @@ Spritus.prototype.onEnd = function (cb) {
   var self = this;
 
   var find = false;
-  this.strCSS.replace(new RegExp(this.config.searchPrefix + "\\-|\\:[^\\(]+\\(\\\"([^\\\"]+)\\\"", 'ig'), function (str) {
-    self.SpritusList.push(arguments[1]);
+  this.strCSS.replace(new RegExp(this.config.searchPrefix + "\\-|\\:([^\\(]+)\\(\\\"([^\\\"]+)\\\"(\\)|,\\s*?\\\"([^\\)\\\"]*)\\\")", 'ig'), function (str) {
+    var sprtie = arguments[2];
+    var method = arguments[1];
+    var arg = arguments[4] ? arguments[4] : null;
+    /**
+     * @type {SpritusModel}
+     */
+    var sModel = self.SpritusList.push(sprtie);
+
+    if (method.indexOf('each') !== -1) {
+      sModel.isFull();
+    } else if(arg) {
+      sModel.used(arg);
+    }
+
     find = true;
     return str;
   });

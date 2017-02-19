@@ -6,23 +6,23 @@ $auth-sprite: "assets/images/auth/*.png?padding=20&algorithm=diagonal&name=auth2
   height: spritus-height($auth-sprite);
   width: spritus-width($auth-sprite);
 }
-//
-//.icon-google {
-//  background-position: spritus-position($auth-sprite, "google.png");
-//  height: spritus-height($auth-sprite, "google.png");
-//  width: spritus-width($auth-sprite, "google.png");
-//}
-//
-//.icon-vk {
-//  background-position: spritus-position($auth-sprite, "vk");
-//  height: spritus-height($auth-sprite, "vk");
-//  width: spritus-width($auth-sprite, "vk");
-//}
+
+.icon-google {
+  background-position: spritus-position($auth-sprite, "google.png");
+  height: spritus-height($auth-sprite, "google.png");
+  width: spritus-width($auth-sprite, "google.png");
+}
+
+.icon-vk {
+  background-position: spritus-position($auth-sprite, "vk");
+  height: spritus-height($auth-sprite, "vk");
+  width: spritus-width($auth-sprite, "vk");
+}
 
 .icon-twitter {
   spritus:phw($auth-sprite, "twitter");
 }
 
-i.icon {
-  spritus:each($auth-sprite);
-}
+//i.icon {
+//  spritus:each($auth-sprite);
+//}
