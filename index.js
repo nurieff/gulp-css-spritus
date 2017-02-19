@@ -83,10 +83,19 @@ Spritus.prototype.onEnd = function (cb) {
   this.SpritusList = new SpritusList(this);
   var self = this;
 
-  this.strCSS.replace(new RegExp(this.config.searchPrefix + "\\-[^\\(]+\\(\\\"([^\\\"]+)\\\"", 'ig'), function (str) {
+  var find = false;
+  this.strCSS.replace(new RegExp(this.config.searchPrefix + "\\-|\\:[^\\(]+\\(\\\"([^\\\"]+)\\\"", 'ig'), function (str) {
     self.SpritusList.push(arguments[1]);
+    find = true;
     return str;
   });
+
+  if (!find) {
+    this.imgStream.push(null);
+    this.cssStream.push(this.css);
+    this.retStream.push(this.css);
+    return cb();
+  }
 
   this.SpritusList.run(this.runHandler.bind(this));
 };
