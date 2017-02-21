@@ -1,0 +1,58 @@
+$auth1: "assets/images/auth/1x/*.png?padding=10&name=auth/1x";
+$auth2: "assets/images/auth/2x/*.png?padding=20&name=auth/2x";
+
+@mixin respond2x()
+{
+	@media
+	only screen and (-webkit-min-device-pixel-ratio: 2),
+	only screen and (min--moz-device-pixel-ratio: 2),
+	only screen and (-moz-min-device-pixel-ratio: 2),
+	only screen and (-o-min-device-pixel-ratio: 2/1),
+	only screen and (min-device-pixel-ratio: 2),
+	only screen and (min-resolution: 192dpi),
+	only screen and (min-resolution: 2dppx) {
+		.high_resolution & {
+			@content;
+		}
+
+	}
+}
+
+@mixin authbtn($name,$bg) {
+	&-#{$name} {
+		background-color: $bg;
+		&:hover {
+			background-color: lighten($bg,5);
+		}
+
+		i {
+			background-position: spritus-position($auth1, $name);
+		}
+	}
+}
+
+.auth {
+	line-height: 1;
+	position: relative;
+	display: inline-block;
+	background-color: #fff;
+	padding: 10px;
+	i {
+		display: inline-block;
+		width: 26px;
+		height: 26px;
+		background-image: spritus-url($auth1);
+		@include respond2x {
+			background-image: spritus-url($auth2);
+		}
+		background-size: 26px auto;
+	}
+
+	@include authbtn('vk',#4d75a3);
+	@include authbtn('mailru',#004b88);
+	@include authbtn('yandex',#c6c6c6);
+	@include authbtn('twitter',#2daae1);
+	@include authbtn('steam',#222);
+	@include authbtn('google',#cd4231);
+	@include authbtn('odnoklassniki',#F58326);
+}

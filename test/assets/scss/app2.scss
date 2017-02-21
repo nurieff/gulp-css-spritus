@@ -1,4 +1,4 @@
-$auth-sprite: "assets/images/auth/*.png?padding=20&algorithm=diagonal&name=auth2";
+$auth-sprite: "assets/images/auth/1x/*.png?padding=20&algorithm=diagonal&name=auth2";
 
 .icon {
   background-image: spritus-url($auth-sprite);
