@@ -1,16 +1,16 @@
 .icon {
-  background-image: s-url("assets/images/auth/*.png");
-  background-size: s-size("assets/images/auth/*.png");
+  background-image: s-url("assets/images/auth/1x/*.png");
+  background-size: s-size("assets/images/auth/1x/*.png");
 }
 
 .icon-google {
-  background-position: s-position("assets/images/auth/*.png", "google.png");
-  height: s-height("assets/images/auth/*.png", "google.png");
-  width: s-width("assets/images/auth/*.png", "google");
+  background-position: s-position("assets/images/auth/1x/*.png", "google.png");
+  height: s-height("assets/images/auth/1x/*.png", "google.png");
+  width: s-width("assets/images/auth/1x/*.png", "google");
 }
 
 .icon-vk {
-  background-position: s-position("assets/images/auth/*.png", "vk.png");
-  height: s-height("assets/images/auth/*.png", "vk.png");
-  width: s-width("assets/images/auth/*.png", "vk");
+  background-position: s-position("assets/images/auth/1x/*.png", "vk.png");
+  height: s-height("assets/images/auth/1x/*.png", "vk.png");
+  width: s-width("assets/images/auth/1x/*.png", "vk");
 }
