@@ -120,7 +120,7 @@ Spritus.prototype._saveFile = function (file, path, fromImagemin) {
     if (err) {
 
     }
-    fs.writeFile(filepath, file.contents);
+    fs.writeFileSync(filepath, file.contents);
 
     if (!fromImagemin) {
       console.log('spritus[save file]: ' + path + file.path);
