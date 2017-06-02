@@ -117,14 +117,16 @@ Spritus.prototype._saveFile = function (file, path, fromImagemin) {
   var filepath = path + file.path;
 
   fs.unlink(filepath, function (err) {
-    if (err) {
+    if (err) throw err;
 
-    }
-    fs.writeFileSync(filepath, file.contents);
+    fs.writeFile(filepath, file.contents, function (err) {
+      if (err) throw err;
 
-    if (!fromImagemin) {
-      console.log('spritus[save file]: ' + path + file.path);
-    }
+      if (!fromImagemin) {
+        console.log('spritus[save file]: ' + path + file.path);
+      }
+    });
+
   });
 };
 
