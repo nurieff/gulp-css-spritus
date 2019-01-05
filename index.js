@@ -5,6 +5,7 @@ var
   , through = require('through2').obj
   , mkdirp = require('mkdirp')
   , fs = require('fs')
+  , pathPlugin = require('path')
   , prettyBytes = require('pretty-bytes')
   , imageminPngquant = require('imagemin-pngquant')
   ;
@@ -116,18 +117,24 @@ Spritus.prototype.onEnd = function (cb) {
 Spritus.prototype._saveFile = function (file, path, fromImagemin) {
   var filepath = path + file.path;
 
-  fs.unlink(filepath, function (err) {
-    if (err) {}
+  var dirPath = pathPlugin.dirname(filepath);
 
-    fs.writeFile(filepath, file.contents, function (err) {
-      if (err) throw err;
+  mkdirp(dirPath, function (err) {
 
-      if (!fromImagemin) {
-        console.log('spritus[save file]: ' + path + file.path);
-      }
+    fs.unlink(filepath, function (err) {
+      if (err) {}
+
+      fs.writeFile(filepath, file.contents, function (err) {
+        if (err) throw err;
+
+        if (!fromImagemin) {
+          console.log('spritus[save file]: ' + path + file.path);
+        }
+      });
+
     });
-
   });
+
 };
 
 Spritus.prototype._saveImagemin = function (file, path) {
