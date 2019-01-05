@@ -194,11 +194,11 @@ i.prefix-twitter {
 
 ### Inline options
 ```
-$icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=newicons";
+$icons-sprite: "assets/images/icons/*.png?padding=30&algorithm=diagonal&name=newdir/newicons";
 ```
 - **padding** — see description in *Plugin options*
 - **algorithm** — see description in *Plugin options*
-- **name** — another name of the sprite to save
+- **name** — another name (with or without dir) of the sprite to save
 
 
 ## Plugin options
