@@ -1,7 +1,7 @@
 var
   Spritesmith = require('spritesmith')
   , glob = require('glob')
-  , gutil = require('gulp-util')
+  , Vinyl = require('vinyl')
   , querystring = require('querystring')
   , fs = require('fs')
   ;
@@ -110,7 +110,7 @@ SpritusModel.prototype._spriteHandler = function (callback, err, result) {
     this._spriteImageKeys.push(res[1]);
   }
 
-  var imgFile = new gutil.File({
+  var imgFile = new Vinyl({
     path: this._basename,
     contents: result.image
   });

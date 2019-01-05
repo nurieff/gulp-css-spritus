@@ -20,7 +20,7 @@ gulp.task('scss', function () {
     .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task("default", ['css', 'scss']);
+gulp.task("default", gulp.series(['css', 'scss']));
 
 gulp.task("watch", function () {
 
